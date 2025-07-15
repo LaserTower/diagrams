@@ -39,6 +39,28 @@
 	<Pantry>
 		<PantryItem weight="200" expiry_date="23.07.2025" purchase_date="10.06.2025" perishable="true">Гречневая крупа</PantryItem>
 	</Pantry>
+	<!-- История приёмов пищи -->
+	<!-- 
+            MealType - тип приёма пищи: завтрак, обед, ужин, перекус
+            FoodItem - отдельный продукт или блюдо
+        -->
+	<MealHistory>
+		<Meal date="2025-07-15" time="08:30" type="завтрак">
+			<FoodItem quantity="150" unit="g">Овсяная каша</FoodItem>
+			<FoodItem quantity="100" unit="g">Творог обезжиренный</FoodItem>
+			<FoodItem quantity="50" unit="g">Ягоды черники</FoodItem>
+		</Meal>
+		<Meal date="2025-07-15" time="13:00" type="обед">
+			<FoodItem quantity="120" unit="g">Куриная грудка</FoodItem>
+			<FoodItem quantity="80" unit="g">Гречневая крупа</FoodItem>
+			<FoodItem quantity="150" unit="g">Овощной салат</FoodItem>
+			<FoodItem quantity="10" unit="ml">Оливковое масло</FoodItem>
+		</Meal>
+		<Meal date="2025-07-15" time="16:00" type="перекус">
+			<FoodItem quantity="30" unit="g">Грецкие орехи</FoodItem>
+			<FoodItem quantity="100" unit="g">Яблоко</FoodItem>
+		</Meal>
+	</MealHistory>
 	<!-- История измерений -->
 	<!-- 
             Weight - вес
