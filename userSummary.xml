@@ -1,13 +1,14 @@
 <user>
+	<!-- gожелания по питанию -->
 	<!--
-| DietType | Тип питания: например, кето, веган, интервальное голодание |
-| CalorieTarget | Цель по калориям в день |
-| Macros | Цель по БЖУ (белки, жиры, углеводы) |
-| AvoidFoods | Продукты, которых следует избегать (аллергии, непереносимость) |
-| PreferredCuisines | Любимые кухни (для рецептов) |
-| MealFrequency | Частота приёмов пищи |
-| Comment | Дополнительные пожелания или примечания |
--->
+            | DietType | Тип питания: например, кето, веган, интервальное голодание |
+            | CalorieTarget | Цель по калориям в день |
+            | Macros | Цель по БЖУ (белки, жиры, углеводы) |
+            | AvoidFoods | Продукты, которых следует избегать (аллергии, непереносимость) |
+            | PreferredCuisines | Любимые кухни (для рецептов) |
+            | MealFrequency | Частота приёмов пищи |
+            | Comment | Дополнительные пожелания или примечания |
+        -->
 	<NutritionWish>
 		<DietType>Средиземноморская диета</DietType>
 		<CalorieTarget unit="kcal">1500</CalorieTarget>
@@ -19,10 +20,10 @@
 	</NutritionWish>
 	<!-- Цель по фигуре -->
 	<!-- 
-TargetWeight - вес
-TargetWaistCircumference - Обхват талии
-TargetThighCircumference - Обхват бедер
--->
+            TargetWeight - вес
+            TargetWaistCircumference - Обхват талии
+            TargetThighCircumference - Обхват бедер
+       -->
 	<GoalBody>
 		<TargetWeight unit="kg">55</TargetWeight>
 		<TargetWaistCircumference unit="cm">65</TargetWaistCircumference>
@@ -40,10 +41,10 @@ TargetThighCircumference - Обхват бедер
 	</Pantry>
 	<!-- История измерений -->
 	<!-- 
-Weight - вес
-WaistCircumference - Обхват талии
-ThighCircumference - Обхват бедер
--->
+            Weight - вес
+            WaistCircumference - Обхват талии
+            ThighCircumference - Обхват бедер
+        -->
 	<BodyMeasurementsHistory>
 		<Measurement date="2025-04-15">
 			<Weight unit="kg">57.7</Weight>
