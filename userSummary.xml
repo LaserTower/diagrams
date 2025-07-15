@@ -1,0 +1,60 @@
+<user>
+<!--
+| DietType | Тип питания: например, кето, веган, интервальное голодание |
+| CalorieTarget | Цель по калориям в день |
+| Macros | Цель по БЖУ (белки, жиры, углеводы) |
+| AvoidFoods | Продукты, которых следует избегать (аллергии, непереносимость) |
+| PreferredCuisines | Любимые кухни (для рецептов) |
+| MealFrequency | Частота приёмов пищи |
+| Comment | Дополнительные пожелания или примечания |
+-->
+  <NutritionWish>
+    <DietType>Средиземноморская диета</DietType>
+    <CalorieTarget unit="kcal">1500</CalorieTarget>
+    <Macros target_protein="100" target_fat="50" target_carbs="120"/>
+    <AvoidFoods>Глютен, Молоко</AvoidFoods>
+    <PreferredCuisines>Японская, Вьетнамская</PreferredCuisines>
+    <MealFrequency>4 раза в день</MealFrequency>
+    <Comment>Питаться регулярно, избегать перекусов вне графика</Comment>
+  </NutritionWish>
+  
+	<!-- Цель по фигуре -->
+	<!-- 
+TargetWeight - вес
+TargetWaistCircumference - Обхват талии
+TargetThighCircumference - Обхват бедер
+-->
+	<GoalBody>
+		<TargetWeight unit="kg">55</TargetWeight>
+		<TargetWaistCircumference unit="cm">65</TargetWaistCircumference>
+		<TargetThighCircumference unit="cm">90</TargetThighCircumference>
+		<GoalDate>2025-12-31</GoalDate>
+		<Comment>Достигнуть здорового веса и улучшить пропорции</Comment>
+	</GoalBody>
+	<!-- содержимое холодильника -->
+	<Refrigerator>
+		<RefrigeratorItem weight="200" expiry_date="23.07.2025" purchase_date="10.06.2025" perishable="true">Творог</RefrigeratorItem>
+	</Refrigerator>
+	<!-- кладовая/шкаф для продуктов -->
+	<Pantry>
+		<PantryItem weight="200" expiry_date="23.07.2025" purchase_date="10.06.2025" perishable="true">Гречневая крупа</PantryItem>
+	</Pantry>
+	<!-- История измерений -->
+	<!-- 
+Weight - вес
+WaistCircumference - Обхват талии
+ThighCircumference - Обхват бедер
+-->
+	<BodyMeasurementsHistory>
+		<Measurement date="2025-04-15">
+			<Weight unit="kg">57.7</Weight>
+			<WaistCircumference unit="cm">70</WaistCircumference>
+			<ThighCircumference unit="cm">57</ThighCircumference>
+		</Measurement>
+		<Measurement date="2025-04-29">
+			<Weight unit="kg">57.5</Weight>
+			<WaistCircumference unit="cm">69</WaistCircumference>
+			<ThighCircumference unit="cm">56</ThighCircumference>
+		</Measurement>
+	</BodyMeasurementsHistory>
+</user>
