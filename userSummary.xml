@@ -1,13 +1,40 @@
 <user>
+	<!-- Базовые параметры тела -->
+	<!-- 
+             Height - рост в см
+             Age - возраст в годах  
+             Gender - пол: мужской/женский
+             ActivityLevel - уровень физической активности:
+                     - sedentary (малоподвижный) - офисная работа, минимум физической активности
+                     - lightly_active (слабо активный) - легкие упражнения 1-3 раза в неделю
+                     - moderately_active (умеренно активный) - умеренные упражнения 3-5 раз в неделю
+                     - very_active (очень активный) - интенсивные упражнения 6-7 раз в неделю
+                     - extremely_active (крайне активный) - очень интенсивные упражнения, физическая работа
+             WorkType - тип работы: office/physical/mixed (офисная/физическая/смешанная)
+             ExerciseFrequency - частота тренировок в неделю
+             ExerciseType - тип упражнений: cardio/strength/mixed/yoga/swimming и т.д.
+             ExerciseDuration - средняя продолжительность тренировки в минутах
+       -->
+	<BodyParameters>
+		<Height unit="cm">165</Height>
+		<Age unit="years">28</Age>
+		<Gender>женский</Gender>
+		<ActivityLevel>moderately_active</ActivityLevel>
+		<WorkType>office</WorkType>
+		<ExerciseFrequency unit="times_per_week">4</ExerciseFrequency>
+		<ExerciseType>mixed</ExerciseType>
+		<ExerciseDuration unit="minutes">45</ExerciseDuration>
+		<Comment>Регулярные тренировки в зале, преимущественно силовые с кардио</Comment>
+	</BodyParameters>
 	<!-- Пожелания по питанию -->
 	<!--
-            | DietType | Тип питания: например, кето, веган, интервальное голодание |
-            | CalorieTarget | Цель по калориям в день |
-            | Macros | Цель по БЖУ (белки, жиры, углеводы) |
-            | AvoidFoods | Продукты, которых следует избегать (аллергии, непереносимость) |
-            | PreferredCuisines | Любимые кухни (для рецептов) |
-            | MealFrequency | Частота приёмов пищи |
-            | Comment | Дополнительные пожелания или примечания |
+              DietType  - Тип питания: например, кето, веган, интервальное голодание 
+              CalorieTarget - Цель по калориям в день 
+              Macros - Цель по БЖУ (белки, жиры, углеводы) 
+              AvoidFoods - Продукты, которых следует избегать (аллергии, непереносимость) 
+              PreferredCuisines - Любимые кухни (для рецептов) 
+              MealFrequency - Частота приёмов пищи 
+              Comment - Дополнительные пожелания или примечания 
         -->
 	<NutritionWish>
 		<DietType>Средиземноморская диета</DietType>
