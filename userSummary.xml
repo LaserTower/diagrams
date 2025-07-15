@@ -106,4 +106,39 @@
 			<ThighCircumference unit="cm">56</ThighCircumference>
 		</Measurement>
 	</BodyMeasurementsHistory>
+	<!-- История потребления БЖУ и калорий по дням -->
+	<!-- 
+             DayNutrition - данные за один день
+             Date - дата в формате YYYY-MM-DD
+             TotalCalories - общее количество калорий за день
+             Protein - белки в граммах
+             Fat - жиры в граммах
+             Carbs - углеводы в граммах
+             WaterIntake - потребление воды в мл (опционально)
+             FiberIntake - потребление клетчатки в граммах (опционально)
+             MealCount - количество приемов пищи за день
+             SnackCount - количество перекусов за день
+             Comment - комментарий о дне (самочувствие, особенности)
+        -->
+	<NutritionHistory>
+		<DayNutrition date="2025-07-11">
+			<Target>
+				<TotalCalories unit="kcal">1500</TotalCalories>
+				<Protein unit="g">100</Protein>
+				<Fat unit="g">50</Fat>
+				<Carbs unit="g">120</Carbs>
+			</Target>
+			<Actual>
+				<TotalCalories unit="kcal">1680</TotalCalories>
+				<Protein unit="g">115</Protein>
+				<Fat unit="g">65</Fat>
+				<Carbs unit="g">135</Carbs>
+				<WaterIntake unit="ml">1500</WaterIntake>
+				<FiberIntake unit="g">16</FiberIntake>
+				<MealCount>3</MealCount>
+				<SnackCount>3</SnackCount>
+			</Actual>
+			<Comment>Превышение по всем показателям, был день рождения у коллеги</Comment>
+		</DayNutrition>
+	</NutritionHistory>
 </user>
