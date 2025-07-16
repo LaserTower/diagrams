@@ -121,10 +121,6 @@
 				<FoodItem quantity="100" unit="g">Яблоко</FoodItem>
 			</Meal>
 			<Summary>
-					<!-- Белок -->
-					<!-- Жиры -->
-					<!-- Углеводы -->
-					<!-- Калории -->
 				<Day 
 					date="2023-10-03"
      					plan_protein_consumption="80"
