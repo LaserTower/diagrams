@@ -40,11 +40,27 @@
 		<DietType>Средиземноморская диета</DietType>
 		<CalorieTarget unit="kcal">1500</CalorieTarget>
 		<Macros target_protein="100" target_fat="50" target_carbs="120"/>
-		<AvoidFoods>Глютен, Молоко</AvoidFoods>
-		<PreferredCuisines>Японская, Вьетнамская</PreferredCuisines>
 		<MealFrequency>4 раза в день</MealFrequency>
 		<Comment>Питаться регулярно, избегать перекусов вне графика</Comment>
+		<!-- не любит -->
+		<!-- не любит -->
+		<!-- не любит -->
+		<AvoidFoods>
+	  	        <AvoidItem>Пшеница</AvoidItem>
+	                <AvoidItem>Молоко коровье</AvoidItem>
+			<AvoidItem>Глютен, Молоко</AvoidItem>
+	        </AvoidFoods>
+		<!-- Предпочитает -->	
+		<!-- Предпочитает -->	
+		<!-- Предпочитает -->	
+	        <Preferences>
+			<PreferredCuisines>Японская, Вьетнамская</PreferredCuisines>
+	                <Texture>мясная</Texture>
+	                <Flavor>острое</Flavor>
+	        </Preferences>
 	</NutritionWish>
+
+	
 	<!-- Цель по фигуре -->
 	<!-- 
             TargetWeight - вес
