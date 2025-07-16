@@ -121,10 +121,7 @@
 				<FoodItem quantity="100" unit="g">Яблоко</FoodItem>
 			</Meal>
 			<Summary>
-				<Day 
-					date="2023-10-03"
-     					plan_protein_consumption="80"
-     					percentage_of_target_protein_consumption="80"   
+				<Day date="2023-10-03" 	plan_protein_consumption="80" percentage_of_target_protein_consumption="80"   
      					actual_protein_consumption="100"
      					
      					plan_fat_consumption="80"
