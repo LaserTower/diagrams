@@ -19,38 +19,9 @@ jobs:
       - name: Get changed files
         id: changed-files
         run: |
-          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD | tr '\n' ' ')
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
-
-      - name: Upload each changed file preserving folder structure
-        if: ${{ steps.changed-files.outputs.changed_files != '' }}
-        env:
-          API_KEY: ${{ secrets.ANYTHINGLLM_API_KEY }}
-        run: |
-          BASE_URL="https://anythingllm.gto-stat.ru/api/v1/document/upload"
-
-          for filepath in ${{ steps.changed-files.outputs.changed_files }}; do
-            if [ ! -f "$filepath" ]; then
-              echo "Skipped (not a file): $filepath"
-              continue
-            fi
-
-            # Извлекаем путь к папке (без имени файла)
-            folder_path=$(dirname "$filepath")
-            # Заменяем путь "root" (.) на пустую строку — загрузка в корень
-            if [ "$folder_path" = "." ]; then
-              folder_path=""
-            fi
-
-            UPLOAD_URL="$BASE_URL"
-            if [ -n "$folder_path" ]; then
-              UPLOAD_URL="$UPLOAD_URL/$folder_path"
-            fi
-
-            echo "Uploading $filepath to folder: '${folder_path:-<root>}'"
-            curl -X POST \
-              "$UPLOAD_URL" \
-              -H "Authorization: Bearer $API_KEY" \
-              -F "file=@$filepath" \
+          for file in $(git show --name-only --pretty=format: HEAD | tail -n +2); do
+            curl -X POST https://anythingllm.gto-stat.ru/api/v1/document/upload/$(dirname "$file") \
+              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
+              -F "file=@$file" \
               --fail-with-body
           done
