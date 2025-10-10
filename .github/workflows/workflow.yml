@@ -19,7 +19,7 @@ jobs:
       - name: Get changed files
         id: changed-files
         run: |
-           echo $(git show --name-only --pretty=format: HEAD | tail -n +2);
+          echo $(git show --name-only --pretty=format: HEAD | tail -n +2);
           for file in $(git show --name-only --pretty=format: HEAD | tail -n +2); do
             echo https://anythingllm.gto-stat.ru/api/v1/document/upload/$(dirname "$file")
             echo @$file
