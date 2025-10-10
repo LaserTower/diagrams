@@ -1,0 +1,56 @@
+name: Upload Changed Files to AnythingLLM (with folder structure)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload-documents:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changed-files
+        run: |
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD | tr '\n' ' ')
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+
+      - name: Upload each changed file preserving folder structure
+        if: ${{ steps.changed-files.outputs.changed_files != '' }}
+        env:
+          API_KEY: ${{ secrets.ANYTHINGLLM_API_KEY }}
+        run: |
+          BASE_URL="https://anythingllm.gto-stat.ru/api/v1/document/upload"
+
+          for filepath in ${{ steps.changed-files.outputs.changed_files }}; do
+            if [ ! -f "$filepath" ]; then
+              echo "Skipped (not a file): $filepath"
+              continue
+            fi
+
+            # Извлекаем путь к папке (без имени файла)
+            folder_path=$(dirname "$filepath")
+            # Заменяем путь "root" (.) на пустую строку — загрузка в корень
+            if [ "$folder_path" = "." ]; then
+              folder_path=""
+            fi
+
+            UPLOAD_URL="$BASE_URL"
+            if [ -n "$folder_path" ]; then
+              UPLOAD_URL="$UPLOAD_URL/$folder_path"
+            fi
+
+            echo "Uploading $filepath to folder: '${folder_path:-<root>}'"
+            curl -X POST \
+              "$UPLOAD_URL" \
+              -H "Authorization: Bearer $API_KEY" \
+              -F "file=@$filepath" \
+              --fail-with-body
+          done
