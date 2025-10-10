@@ -19,8 +19,8 @@ jobs:
       - name: Get changed files
         id: changed-files
         run: |
-          echo $(git show --name-only --pretty=format: HEAD | tail -n +2);
-          for file in $(git show --name-only --pretty=format: HEAD | tail -n +2); do
+          echo $(git diff --name-only HEAD~1 HEAD);
+          for file in $(git diff --name-only HEAD~1 HEAD); do
             echo https://anythingllm.gto-stat.ru/api/v1/document/upload/$(dirname "$file")
             echo @$file
             curl -X POST https://anythingllm.gto-stat.ru/api/v1/document/upload/$(dirname "$file") \
