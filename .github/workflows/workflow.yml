@@ -20,6 +20,8 @@ jobs:
         id: changed-files
         run: |
           for file in $(git show --name-only --pretty=format: HEAD | tail -n +2); do
+            echo https://anythingllm.gto-stat.ru/api/v1/document/upload/$(dirname "$file")
+            echo @$file
             curl -X POST https://anythingllm.gto-stat.ru/api/v1/document/upload/$(dirname "$file") \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -F "file=@$file" \
