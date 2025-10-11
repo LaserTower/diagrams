@@ -27,15 +27,10 @@ jobs:
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -F "file=@$file" \
               --fail-with-body)
-              echo "$json" | jq '.'
-            
-              curl -X POST $api_url/workspace/lighthouse/update-embeddings \
-              -H "Content-Type: application/json" \
-              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" 
-               -d "{\"deletes\": [\"$filename\"]}"
+              location=$(echo "$json" | jq -r '.documents[0].location')
                
               curl -X POST $api_url/workspace/lighthouse/update-embeddings \
               -H "Content-Type: application/json" \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
-              -d "{\"adds\": [\"$filename\"]}"
+              -d "{\"adds\": [\"$location\"]}"
           done
