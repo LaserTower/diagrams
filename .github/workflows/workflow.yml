@@ -16,12 +16,26 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Get changed files
+      - name: Sync files
         id: changed-files
         run: |
           for file in $(git diff --name-only HEAD~1 HEAD); do
-            curl -X POST https://anythingllm.gto-stat.ru/api/v1/document/upload/$(basename $(dirname "$file")) \
-              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
+            filename=$(basename "$file")
+            workplace=$(basename $(dirname "$file"))
+            api_url="https://anythingllm.gto-stat.ru/api/v1"
+            json=$(curl -X POST $api_url/document/upload/workplace \
+              -H "Authorization: Bearer ${{ secrets.ANYTHINGLLM_API_KEY }}" \
               -F "file=@$file" \
-              --fail-with-body
+              --fail-with-body)
+              echo "$json" | jq '.'
+            
+              curl -X POST $api_url/workspace/lighthouse/update-embeddings \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${{ secrets.ANYTHINGLLM_API_KEY }}" 
+               -d "{\"deletes\": [\"$filename\"]}"
+               
+              curl -X POST $api_url/workspace/lighthouse/update-embeddings \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer ${{ secrets.ANYTHINGLLM_API_KEY }}" \
+              -d "{\"adds\": [\"$filename\"]}"
           done
