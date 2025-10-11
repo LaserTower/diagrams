@@ -23,19 +23,19 @@ jobs:
             filename=$(basename "$file")
             workplace=$(basename $(dirname "$file"))
             api_url="https://anythingllm.gto-stat.ru/api/v1"
-            json=$(curl -X POST $api_url/document/upload/workplace \
-              -H "Authorization: Bearer ${{ secrets.ANYTHINGLLM_API_KEY }}" \
+            json=$(curl -sS -X POST $api_url/document/upload/lighthouse \
+              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -F "file=@$file" \
               --fail-with-body)
               echo "$json" | jq '.'
             
               curl -X POST $api_url/workspace/lighthouse/update-embeddings \
               -H "Content-Type: application/json" \
-              -H "Authorization: Bearer ${{ secrets.ANYTHINGLLM_API_KEY }}" 
+              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" 
                -d "{\"deletes\": [\"$filename\"]}"
                
               curl -X POST $api_url/workspace/lighthouse/update-embeddings \
               -H "Content-Type: application/json" \
-              -H "Authorization: Bearer ${{ secrets.ANYTHINGLLM_API_KEY }}" \
+              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -d "{\"adds\": [\"$filename\"]}"
           done
