@@ -37,7 +37,7 @@ jobs:
               -d "{\"names\": [\"$delete_file\"]}"> /dev/null 2>&1 
               
              echo "Загружаем файл  $file"
-            json=$(curl -s -X POST $api_url/document/upload/lighthouse \
+            json=$(curl -s -X POST $api_url/document/upload/$workplace \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -F "file=@$file" \
               --fail-with-body)
@@ -46,14 +46,14 @@ jobs:
               delete_emb=$(jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
               if [ -n "$delete_emb" ]; then
                 echo "Удаляю embedding $delete_emb"
-                curl -s -X POST $api_url/workspace/lighthouse/update-embeddings \
+                curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
                 -H "Content-Type: application/json" \
                 -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
                 -d "{\"deletes\": [\"$delete_emb\"]}" > /dev/null 2>&1
               fi
 
               echo "Новый embedding $delete_emb"
-              curl -s -X POST $api_url/workspace/lighthouse/update-embeddings \
+              curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
               -H "Content-Type: application/json" \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -d "{\"adds\": [\"$location\"]}"> /dev/null 2>&1 
