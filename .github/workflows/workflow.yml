@@ -29,11 +29,11 @@ jobs:
               --fail-with-body)
               location=$(echo "$json" | jq -r '.documents[0].location')
 
-              defete_emb=$(jq '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
+              delete_emb=$(jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
               curl -X POST $api_url/workspace/lighthouse/update-embeddings \
               -H "Content-Type: application/json" \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
-              -d "{\"deletes\": [\"$defete_emb\"]}"
+              -d "{\"deletes\": [\"$delete_emb\"]}"
               
               curl -X POST $api_url/workspace/lighthouse/update-embeddings \
               -H "Content-Type: application/json" \
