@@ -29,7 +29,7 @@ jobs:
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               --fail-with-body)
 
-            delete_file=$(echo "$json" | jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
+            delete_file=$(echo "$json" | jq --arg filename "$filename" '.workspace[0].documents[] | select(.metadata | fromjson.title == $filename).filename')
               if [ -n "$delete_file" ]; then
               echo "удаляем существующий файл"
                curl -s -X POST $api_url/system/remove-documents \
@@ -44,7 +44,7 @@ jobs:
               --fail-with-body)
               location=$(echo "$json" | jq -r '.documents[0].location')
 
-              delete_emb=$(echo "$json" | jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
+              delete_emb=$(echo "$json" | jq --arg filename "$filename" '..workspace[0].documents[] | select(.metadata | fromjson.title == $filename).filename')
               if [ -n "$delete_emb" ]; then
                 echo "Удаляю embedding $delete_emb"
                 curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
