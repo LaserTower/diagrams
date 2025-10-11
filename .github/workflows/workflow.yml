@@ -23,19 +23,21 @@ jobs:
             filename=$(basename "$file")
             workplace=$(basename $(dirname "$file"))
             api_url="https://anythingllm.gto-stat.ru/api/v1"
-            echo "удаляем файл если такой уже есть $filename"
-            json=$(curl -s -X POST $api_url/workspace/$workplace \
+            echo "информация о workspace $workplace"
+           
+            json=$(curl -s $api_url/workspace/$workplace \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -F "file=@$file" \
               --fail-with-body)
 
-            delete_file=$(jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
-
-              curl -s -X POST $api_url/system/remove-documents \
+            delete_file=$(echo "$json" | jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
+              if [ -n "$delete_file" ]; then
+              echo "удаляем существующий файл"
+               curl -s -X POST $api_url/system/remove-documents \
               -H "Content-Type: application/json" \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -d "{\"names\": [\"$delete_file\"]}"> /dev/null 2>&1 
-              
+              fi
              echo "Загружаем файл  $file"
             json=$(curl -s -X POST $api_url/document/upload/$workplace \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
@@ -43,7 +45,7 @@ jobs:
               --fail-with-body)
               location=$(echo "$json" | jq -r '.documents[0].location')
 
-              delete_emb=$(jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
+              delete_emb=$(echo "$json" | jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
               if [ -n "$delete_emb" ]; then
                 echo "Удаляю embedding $delete_emb"
                 curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
