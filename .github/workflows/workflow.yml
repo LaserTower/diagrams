@@ -23,6 +23,20 @@ jobs:
             filename=$(basename "$file")
             workplace=$(basename $(dirname "$file"))
             api_url="https://anythingllm.gto-stat.ru/api/v1"
+            echo "удаляем файл если такой уже есть $filename"
+            json=$(curl -s -X POST $api_url/workspace/$workplace \
+              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
+              -F "file=@$file" \
+              --fail-with-body)
+
+            delete_file=$(jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
+
+              curl -s -X POST $api_url/system/remove-documents \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
+              -d "{\"names\": [\"$delete_file\"]}"> /dev/null 2>&1 
+              
+             echo "Загружаем файл  $file"
             json=$(curl -s -X POST $api_url/document/upload/lighthouse \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
               -F "file=@$file" \
@@ -30,13 +44,17 @@ jobs:
               location=$(echo "$json" | jq -r '.documents[0].location')
 
               delete_emb=$(jq --arg filename "$filename" '.workspace.documents[] | select(.metadata | fromjson.title == $filename).filename')
+              if [ -n "$delete_emb" ]; then
+                echo "Удаляю embedding $delete_emb"
+                curl -s -X POST $api_url/workspace/lighthouse/update-embeddings \
+                -H "Content-Type: application/json" \
+                -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
+                -d "{\"deletes\": [\"$delete_emb\"]}" > /dev/null 2>&1
+              fi
+
+              echo "Новый embedding $delete_emb"
               curl -s -X POST $api_url/workspace/lighthouse/update-embeddings \
               -H "Content-Type: application/json" \
               -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
-              -d "{\"deletes\": [\"$delete_emb\"]}"
-              
-              curl -s -X POST $api_url/workspace/lighthouse/update-embeddings \
-              -H "Content-Type: application/json" \
-              -H "Authorization: Bearer SPZ09E6-DND41HB-GAW3MJC-BT3HYZN" \
-              -d "{\"adds\": [\"$location\"]}"
+              -d "{\"adds\": [\"$location\"]}"> /dev/null 2>&1 
           done
