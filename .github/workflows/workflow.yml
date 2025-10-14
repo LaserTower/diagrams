@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    env:
-      API_TOKEN: ${{ secrets.ANYTHINGLLM_API_KEY }}  
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,6 +18,8 @@ jobs:
 
       - name: Sync files
         id: changed-files
+        env:
+          API_TOKEN: ${{ secrets.ANYTHINGLLM_API_KEY }}  
         run: |
           if [ -z "${API_TOKEN}" ]; then
             echo "Ошибка: API_TOKEN не установлен!"
