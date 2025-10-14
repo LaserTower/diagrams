@@ -18,13 +18,13 @@ jobs:
 
       - name: Sync files
         id: changed-files
-        env:
-          API_TOKEN: ${{ secrets.ANYTHINGLLM_API_KEY }}  
         run: |
-          if [ -z "${API_TOKEN}" ]; then
+          if [ -z "${{ secrets.ANYTHINGLLM_API_KEY }}" ]; then
             echo "Ошибка: API_TOKEN не установлен!"
             exit 1
           fi
+          
+          API_TOKEN="${{ secrets.ANYTHINGLLM_API_KEY }}"
           for file in $(git diff --name-only HEAD~1 HEAD); do
             filename=$(basename "$file")
             workplace=$(basename $(dirname "$file"))
