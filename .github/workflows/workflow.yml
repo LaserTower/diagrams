@@ -21,7 +21,10 @@ jobs:
       - name: Sync files
         id: changed-files
         run: |
-          set -x 
+          if [ -z "${API_TOKEN}" ]; then
+            echo "Ошибка: API_TOKEN не установлен!"
+            exit 1
+          fi
           for file in $(git diff --name-only HEAD~1 HEAD); do
             filename=$(basename "$file")
             workplace=$(basename $(dirname "$file"))
@@ -29,7 +32,7 @@ jobs:
             echo "информация о workspace $workplace"
            
             json=$(curl -s $api_url/workspace/$workplace \
-              -H "Authorization: Bearer $API_TOKEN" \
+              -H "Authorization: Bearer ${API_TOKEN}" \
               --fail-with-body)
 
             delete_file=$(echo "$json" | jq --arg filename "$filename" '.workspace[0].documents[] | select(.metadata | fromjson.title == $filename).filename')
@@ -37,26 +40,26 @@ jobs:
               echo "удаляем существующий файл"
                curl -s -X POST $api_url/system/remove-documents \
               -H "Content-Type: application/json" \
-              -H "Authorization: Bearer $API_TOKEN" \
+              -H "Authorization: Bearer ${API_TOKEN}" \
               -d "{\"names\": [\"$delete_file\"]}"> /dev/null 2>&1 
 
                 echo "Удаляю embedding $delete_file"
                 curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
                 -H "Content-Type: application/json" \
-                -H "Authorization: Bearer $API_TOKEN" \
+                -H "Authorization: Bearer ${API_TOKEN}" \
                 -d "{\"deletes\": [\"$delete_file\"]}" > /dev/null 2>&1
               fi
 
               
              echo "Загружаем файл  $file"
             json=$(curl -s -X POST $api_url/document/upload/$workplace \
-              -H "Authorization: Bearer $API_TOKEN" \
+              -H "Authorization: Bearer ${API_TOKEN}" \
               -F "file=@$file" \
               --fail-with-body)
               location=$(echo "$json" | jq -r '.documents[0].location')
               echo "Новый embedding $delete_emb"
               curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
               -H "Content-Type: application/json" \
-              -H "Authorization: Bearer $API_TOKEN" \
+              -H "Authorization: Bearer ${API_TOKEN}" \
               -d "{\"adds\": [\"$location\"]}"> /dev/null 2>&1 
           done
