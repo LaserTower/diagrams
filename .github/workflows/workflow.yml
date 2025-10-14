@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    environment: AnythingLLM   
     steps:
       - name: Debug - Check if secret exists
         run: |
