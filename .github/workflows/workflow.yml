@@ -21,6 +21,7 @@ jobs:
       - name: Sync files
         id: changed-files
         run: |
+          set -x 
           for file in $(git diff --name-only HEAD~1 HEAD); do
             filename=$(basename "$file")
             workplace=$(basename $(dirname "$file"))
