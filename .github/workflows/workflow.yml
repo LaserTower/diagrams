@@ -26,7 +26,7 @@ jobs:
             echo "информация о workspace $workplace"
            
             json=$(curl -s $api_url/workspace/$workplace \
-              -H "Authorization: Bearer {{secret.ANYTHINGLLM_API_KEY}}" \
+              -H "Authorization: Bearer ${{secrets.ANYTHINGLLM_API_KEY}}" \
               --fail-with-body)
 
             delete_file=$(echo "$json" | jq --arg filename "$filename" '.workspace[0].documents[] | select(.metadata | fromjson.title == $filename).filename')
@@ -34,26 +34,26 @@ jobs:
               echo "удаляем существующий файл"
                curl -s -X POST $api_url/system/remove-documents \
               -H "Content-Type: application/json" \
-              -H "Authorization: Bearer {{secret.ANYTHINGLLM_API_KEY}}" \
+              -H "Authorization: Bearer ${{secrets.ANYTHINGLLM_API_KEY}}" \
               -d "{\"names\": [\"$delete_file\"]}"> /dev/null 2>&1 
 
                 echo "Удаляю embedding $delete_file"
                 curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
                 -H "Content-Type: application/json" \
-                -H "Authorization: Bearer {{secret.ANYTHINGLLM_API_KEY}}" \
+                -H "Authorization: Bearer ${{secrets.ANYTHINGLLM_API_KEY}}" \
                 -d "{\"deletes\": [\"$delete_file\"]}" > /dev/null 2>&1
               fi
 
               
              echo "Загружаем файл  $file"
             json=$(curl -s -X POST $api_url/document/upload/$workplace \
-              -H "Authorization: Bearer {{secret.ANYTHINGLLM_API_KEY}}" \
+              -H "Authorization: Bearer ${{secrets.ANYTHINGLLM_API_KEY}}" \
               -F "file=@$file" \
               --fail-with-body)
               location=$(echo "$json" | jq -r '.documents[0].location')
               echo "Новый embedding $delete_emb"
               curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
               -H "Content-Type: application/json" \
-              -H "Authorization: Bearer {{secret.ANYTHINGLLM_API_KEY}}" \
+              -H "Authorization: Bearer ${{secrets.ANYTHINGLLM_API_KEY}}" \
               -d "{\"adds\": [\"$location\"]}"> /dev/null 2>&1 
           done
