@@ -11,6 +11,16 @@ jobs:
     permissions:
       contents: read
     steps:
+      - name: Debug - Check if secret exists
+        run: |
+            if [ -z "$ANYTHINGLLM_API_KEY" ]; then
+              echo "Secret is empty or not set"
+            else
+              echo "Secret is set (first few chars): ${ANYTHINGLLM_API_KEY:0:4}..."
+            fi
+        env:
+            ANYTHINGLLM_API_KEY: ${{ secrets.ANYTHINGLLM_API_KEY }}
+            
       - name: Checkout code
         uses: actions/checkout@v4
         with:
