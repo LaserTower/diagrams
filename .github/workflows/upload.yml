@@ -27,10 +27,6 @@ jobs:
           echo "Secret is set (first few chars): ${ANYTHINGLLM_API_KEY:0:4}..."
         env:
           ANYTHINGLLM_API_KEY: ${{ secrets.ANYTHINGLLM_API_KEY }}
-
-      - name: Make script executable
-        run: chmod +x .github/scripts/sync_to_anythingllm.sh
-
       - name: Sync changed files to AnythingLLM
         run: .github/scripts/sync_to_anythingllm.sh "$ANYTHINGLLM_API_KEY"
         env:
