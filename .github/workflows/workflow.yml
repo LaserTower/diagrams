@@ -63,11 +63,32 @@ jobs:
 
               
              echo "Загружаем файл  $file"
-            json=$(curl -s -X POST $api_url/document/upload/$workplace \
-              -H "Authorization: Bearer ${API_TOKEN}" \
-              -F "file=@$file" \
-              --fail-with-body)
+              if ! json=$(curl -s -X POST "$api_url/document/upload/$workplace" \
+                            -H "Authorization: Bearer ${API_TOKEN}" \
+                            -F "file=@$file" \
+                            --fail-with-body 2>&1); then
+                  echo "Ошибка при загрузке файла через curl: $json" >&2
+                  exit 1
+              fi
+              
+              # Проверяем, что ответ содержит валидный JSON
+              if ! echo "$json" | jq -e . >/dev/null 2>&1; then
+                  echo "Ошибка: получен невалидный JSON от сервера" >&2
+                  echo "Ответ сервера: $json" >&2
+                  exit 1
+              fi
+              
+              # Извлекаем location
               location=$(echo "$json" | jq -r '.documents[0].location')
+              
+              # Проверяем, что location не пустой и не равен null
+              if [ -z "$location" ] || [ "$location" = "null" ]; then
+                  echo "Ошибка: поле location не найдено в ответе сервера" >&2
+                  echo "Полученный JSON: $json" >&2
+                  exit 1
+              fi
+
+
               echo "Новый embedding $delete_emb"
               curl -s -X POST $api_url/workspace/$workplace/update-embeddings \
               -H "Content-Type: application/json" \
