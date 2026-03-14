@@ -1,0 +1,37 @@
+name: Upload Changed Files to AnythingLLM
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload-documents:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    environment: AnythingLLM
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check secret
+        run: |
+          if [ -z "$ANYTHINGLLM_API_KEY" ]; then
+            echo "Secret is empty or not set"
+            exit 1
+          fi
+          echo "Secret is set (first few chars): ${ANYTHINGLLM_API_KEY:0:4}..."
+        env:
+          ANYTHINGLLM_API_KEY: ${{ secrets.ANYTHINGLLM_API_KEY }}
+
+      - name: Make script executable
+        run: chmod +x .github/scripts/sync_to_anythingllm.sh
+
+      - name: Sync changed files to AnythingLLM
+        run: .github/scripts/sync_to_anythingllm.sh "$ANYTHINGLLM_API_KEY"
+        env:
+          ANYTHINGLLM_API_KEY: ${{ secrets.ANYTHINGLLM_API_KEY }}
