@@ -39,7 +39,7 @@ jobs:
           for file in $(git diff --name-only HEAD~1 HEAD); do
             filename=$(basename "$file")
             workplace=$(basename $(dirname "$file"))
-            api_url="https://anythingllm.gto-stat.ru/api/v1"
+            api_url="https://anythingllm.lasertower.ru/api/v1"
             echo "информация о workspace $workplace"
            
             json=$(curl -s $api_url/workspace/$workplace \
